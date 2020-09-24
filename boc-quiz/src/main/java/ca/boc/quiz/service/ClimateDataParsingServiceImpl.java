@@ -46,8 +46,19 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 			this.climateData = data;
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
+			LOG.error("Can't find csv file in provided location: " + fileLocation);
+			
+			// TODO Throw proper error
 			e.printStackTrace();
+			
+		} catch (Exception ex) {
+
+			LOG.error("Error reading/parsing csv file in provided location: " + fileLocation);
+
+			// TODO Throw proper error
+			
+			
 		}
 		
 		
