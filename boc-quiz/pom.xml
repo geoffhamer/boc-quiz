@@ -11,10 +11,10 @@
 	
 	<groupId>ca.boc</groupId>
 	<artifactId>boc-quiz</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>boc-quiz</name>
 	<description>Take home quiz for Bank of Canada</description>
-
+	
 	<properties>
 		<java.version>11</java.version>
 	</properties>
@@ -58,6 +58,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
