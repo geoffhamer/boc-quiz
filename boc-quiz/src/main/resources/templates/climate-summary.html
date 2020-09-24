@@ -4,9 +4,21 @@
 <head>
     <title>City Climate Summary</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+	.myDiv {
+  		border: 5px outset red;
+  		background-color: lightblue;
+  		text-align: center;
+	}
+</style>    
 </head>
 
 <body>
+
+	<div th:if="${errorMessage}" color="red" class="myDiv">    
+    	An ERROR has occurred.
+    	<p th:text=${errorMessage}/>
+	</div>
 
 	<h2>City Climate Summary</h2>
 	

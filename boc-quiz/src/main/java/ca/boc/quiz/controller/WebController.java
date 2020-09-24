@@ -118,6 +118,7 @@ public class WebController {
 			
 			LOG.error("Index provided for details page "+indexVal+" does not exist.");
 			
+			model.addAttribute("errorMessage", "Index provided for details page "+indexVal+" does not exist.");
 	    	model.addAttribute("filterDates", new FilterDates());
 	    	model.addAttribute("stations", dataService.getCityRows());
 	    	return "climate-summary";
