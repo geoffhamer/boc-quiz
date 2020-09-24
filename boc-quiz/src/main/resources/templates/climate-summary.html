@@ -9,6 +9,51 @@
 <body>
 
 	<h2>City Climate Summary</h2>
+	
+	<form action="#" th:action="@{/filterSummary}" th:object="${filterDates}" method="post">
+	
+		<p>Dates after (dd/mm/yyyy): <input type="text" th:field="*{afterDate}" /><br/>
+		Dates before (dd/mm/yyyy): <input type="text" th:field="*{beforeDate}" />
+	    <p><button type="submit" value="Submit">Filter Dates</button>
+	    
+	</form>	
+	
+	<div class="container py-5">
+	
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <!--display users list-->
+            <table class="table table-bordered table-striped" th:if="${stations}">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Station</th>
+                    <th scope="col">Province</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Mean Temp</th>
+                    <th scope="col">Max Temp</th>
+                    <th scope="col">Min Temp</th>
+                </tr>
+                </thead>
+                
+                <tbody>
+                <tr th:each="station, i : ${stations}">
+                    <th scope="row" th:text="${i.index + 1}"></th>
+                    <td th:text="${station.station}"></td>
+                    <td th:text="${station.province}"></td>
+                    <td th:text="${#dates.format(station.date, 'dd-MM-yyyy')}"></td>
+                    <td>
+                    	<a th:href="@{/detail(index=${station.index})}" th:text="${station.tempMean}"/>
+                    </td>
+                    <td th:text="${station.tempMax}"></td>
+                    <td th:text="${station.tempMin}"></td>
+                </tr>
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+	</div>
     
 </body>
 

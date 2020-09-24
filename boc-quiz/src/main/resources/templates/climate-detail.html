@@ -8,7 +8,46 @@
 
 <body>
 
-	<h2>City Climate Detail for Xxxxx</h2>
+	<h2 th:text="'Climate Data for Station: ' + ${station.station}" />
+	
+	<div class="container py-5">
+	
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <!--display users list-->
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <tr>
+                    <td>Station: </td>
+                    <td th:text="${station.station}"/>
+                </tr>
+                <tr>
+                    <td>Province: </td>
+                    <td th:text="${station.province}"/>
+                </tr>
+                <tr>
+                    <td>Date: </td>
+                    <td th:text="${#dates.format(station.date, 'dd-MM-yyyy')}"/>
+                </tr>
+                <tr>
+                    <td>Mean Temp: </td>
+                    <td th:text="${station.tempMean}"/>
+                </tr>
+                <tr>
+                    <td>Max Monthly Temp: </td>
+                    <td th:text="${station.tempMax}"/>
+                </tr>
+                <tr>
+                    <td>Min Monthly Temp: </td>
+                    <td th:text="${station.tempMin}"/>
+                </tr>
+                
+                </tbody>
+                
+            </table>
+        </div>
+    </div>
+	</div>    
     
 </body>
 

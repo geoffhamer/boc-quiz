@@ -1,5 +1,7 @@
 package ca.boc.quiz.service;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Date;
 import java.util.List;
 
@@ -7,8 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import com.opencsv.bean.CsvToBeanBuilder;
+
 import ca.boc.quiz.model.ClimateData;
-import ca.boc.quiz.util.DataFileReader;
+//import ca.boc.quiz.util.DataFileReader;
 
 @Service
 public class ClimateDataParsingServiceImpl implements ClimateDataParsingService {
@@ -24,12 +28,31 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 		
 		LOG.info("Loading climate data from: " + fileLocation);
 		
-		DataFileReader fileReader = new DataFileReader(fileLocation);
-		List<String> dataRows = fileReader.fetchRawData();
+		List<ClimateData> data; 
 		
-		int i = 0;
-		for (String row : dataRows) {
+		FileReader reader;
+		try {
+			
+			reader = new FileReader(fileLocation);
+			
+			data = new CsvToBeanBuilder( reader )
+				       .withType(ClimateData.class).withSkipLines(1).build().parse();
+
+			LOG.info("Data Loaded: " + data.size() + " rows");
+			
+			// Give each row an identifier
+			int i = 0;
+			for (ClimateData climateData : data) {
+				climateData.setIndex(i++);
+			}
+
+			this.climateData = data;
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		
 		
 	}
 
@@ -41,8 +64,8 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 
 	@Override
 	public List<ClimateData> getCityRows() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return this.climateData;
 	}
 
 	@Override
