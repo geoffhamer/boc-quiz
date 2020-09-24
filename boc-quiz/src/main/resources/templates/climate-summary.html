@@ -41,7 +41,7 @@
                     <th scope="row" th:text="${i.index + 1}"></th>
                     <td th:text="${station.station}"></td>
                     <td th:text="${station.province}"></td>
-                    <td th:text="${#dates.format(station.date, 'dd-MM-yyyy')}"></td>
+                    <td th:text="${#dates.format(station.date, 'yyyy-MM-dd')}"></td>
                     <td>
                     	<a th:href="@{/detail(index=${station.index})}" th:text="${station.tempMean}"/>
                     </td>
