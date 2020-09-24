@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.opencsv.bean.CsvToBeanBuilder;
 
 import ca.boc.quiz.model.ClimateData;
-//import ca.boc.quiz.util.DataFileReader;
 
 @Service
 public class ClimateDataParsingServiceImpl implements ClimateDataParsingService {
