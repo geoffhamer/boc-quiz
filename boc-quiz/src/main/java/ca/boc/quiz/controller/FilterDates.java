@@ -1,25 +1,30 @@
 package ca.boc.quiz.controller;
 
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 public class FilterDates {
 	
-	private String afterDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date afterDate;
 	
-	private String beforeDate;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date beforeDate;
 
-	public String getAfterDate() {
+	public Date getAfterDate() {
 		return afterDate;
 	}
 
-	public void setAfterDate(String afterDate) {
+	public void setAfterDate(Date afterDate) {
 		this.afterDate = afterDate;
 	}
 
-	public String getBeforeDate() {
+	public Date getBeforeDate() {
 		return beforeDate;
 	}
 
-	public void setBeforeDate(String beforeDate) {
+	public void setBeforeDate(Date beforeDate) {
 		this.beforeDate = beforeDate;
 	}
 	

@@ -1,5 +1,8 @@
 package ca.boc.quiz.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,9 @@ public class WebController {
 	
 	@Autowired
 	private ClimateDataParsingServiceImpl dataService;
+	
+	private Date earliestDate = new Date(Long.MIN_VALUE);
+	private Date latestDate = new Date(Long.MAX_VALUE);
 	
     @GetMapping("/info")
     public String hello(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -44,6 +50,38 @@ public class WebController {
         return "climate-summary";
     }
     
+
+    @PostMapping("/filterSummary")
+	public String filterDataByDates(@ModelAttribute FilterDates filterDates, Model model) {
+    	
+    	// If a date isn't provided, set it to the limit
+    	if ( filterDates.getAfterDate() == null) {
+			filterDates.setAfterDate (this.earliestDate );
+		}
+    	
+    	if ( filterDates.getBeforeDate() == null) {
+			filterDates.setBeforeDate (this.latestDate );
+		}
+    	
+    	List<ClimateData> filteredClimateData = new ArrayList<ClimateData>();
+    	
+    	for (ClimateData climateData : dataService.getCityRows()) {
+			
+    		if ( climateData.getDate().after(filterDates.getAfterDate() ) && 
+    			 climateData.getDate().before(filterDates.getBeforeDate() ) ) {
+				
+    			filteredClimateData.add( climateData );
+			}
+    		
+		}
+    	
+    	model.addAttribute("stations", filteredClimateData);
+    	model.addAttribute("filterDates", new FilterDates());
+    	
+    	return "climate-summary";
+    }
+       
+    
     @GetMapping("/detail")
     public String detail(@RequestParam(name="index", required=true) String index, Model model) {
     	
@@ -62,12 +100,5 @@ public class WebController {
         return "climate-detail";
     }
     
-    @PostMapping("/filterSummary")
-	public String filterDataByDates(@ModelAttribute FilterDates filterDates, Model model) {
-    	
-    	model.addAttribute("filterDates", filterDates);
-      
-    	return "climate-summary";
-    }
-    
+
 }

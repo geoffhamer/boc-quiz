@@ -12,8 +12,8 @@
 	
 	<form action="#" th:action="@{/filterSummary}" th:object="${filterDates}" method="post">
 	
-		<p>Dates after (dd/mm/yyyy): <input type="text" th:field="*{afterDate}" /><br/>
-		Dates before (dd/mm/yyyy): <input type="text" th:field="*{beforeDate}" />
+		<p>Dates after: <input type="date" th:field="*{afterDate}" /><br/>
+		Dates before: <input type="date" th:field="*{beforeDate}" />
 	    <p><button type="submit" value="Submit">Filter Dates</button>
 	    
 	</form>	
