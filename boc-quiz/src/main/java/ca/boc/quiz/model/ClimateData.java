@@ -2,7 +2,6 @@ package ca.boc.quiz.model;
 
 import java.util.Date;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 import com.opencsv.bean.CsvDate;
 

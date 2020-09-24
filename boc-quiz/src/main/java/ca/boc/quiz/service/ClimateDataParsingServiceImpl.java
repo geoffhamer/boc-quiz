@@ -19,11 +19,10 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 	
 	private final static Logger LOG = LoggerFactory.getLogger(ClimateDataParsingServiceImpl.class) ;
 
-	private String[] columnNames;
-	
 	private List<ClimateData> climateData;
 	
 	@Override
+	
 	public void initClimateData(String fileLocation) {
 		
 		LOG.info("Loading climate data from: " + fileLocation);
@@ -34,8 +33,7 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 		try {
 			
 			reader = new FileReader(fileLocation);
-			
-			data = new CsvToBeanBuilder( reader )
+			data = new CsvToBeanBuilder<ClimateData>( reader )
 				       .withType(ClimateData.class).withSkipLines(1).build().parse();
 
 			LOG.info("Data Loaded: " + data.size() + " rows");
