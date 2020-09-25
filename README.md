@@ -27,6 +27,17 @@ Once the Spring Boot applications starts, point your browser to:
 http://localhost:8080
 ```
 
+## Errors
+
+The City Climate Summary page will display an error if the station requested cannot be found. 
+To create this error, try one of the following URLs:
+
+```bash
+http://localhost:8080/detail?index
+http://localhost:8080/detail?index=abcd
+http://localhost:8080/detail?index=2000
+```
+
 ## Requirements
 
 - java jdk-11.0.8
