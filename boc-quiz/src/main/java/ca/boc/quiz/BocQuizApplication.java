@@ -6,6 +6,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
+import ca.boc.quiz.exception.DataParsingException;
 import ca.boc.quiz.service.ClimateDataParsingServiceImpl;
 
 @SpringBootApplication
@@ -25,7 +26,17 @@ public class BocQuizApplication {
 			ConfigurableApplicationContext context = SpringApplication.run(BocQuizApplication.class, args);
 
 			ClimateDataParsingServiceImpl service = (ClimateDataParsingServiceImpl)context.getBean(ClimateDataParsingServiceImpl.class);
-			service.initClimateData(fileLocation);
+			
+			try {
+
+				service.initClimateData(fileLocation);
+				
+			} catch (DataParsingException e) {
+				
+				System.out.println(e.getMessage());
+				context.close();
+				
+			}
 		
 		} else {
 			

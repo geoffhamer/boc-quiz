@@ -59,9 +59,11 @@ public class WebController {
     @PostMapping("/filterSummary")
 	public String filterDataByDates(@ModelAttribute FilterDates filterDates, Model model) {
     	
-    	LOG.trace("Call to filtered summary page");
+    	LOG.trace("Call to filtered summary page. (after:"+filterDates.getAfterDate()+" before:"+filterDates.getBeforeDate()+")");
     	
     	List<ClimateData> filteredClimateData = this.dataService.getCityRowsByDate( filterDates.getAfterDate() , filterDates.getBeforeDate() );
+    	
+    	LOG.trace("Filtered climate data contains "+ filteredClimateData.size() +"rows.");
     	
     	model.addAttribute("stations", filteredClimateData);
     	model.addAttribute("filterDates", new FilterDates());
@@ -73,7 +75,7 @@ public class WebController {
     @GetMapping("/detail")
     public String detail(@RequestParam(name="index") String index, Model model) {
     	
-    	LOG.trace("Call to details page");
+    	LOG.trace("Call to details page for index: " + index);
 
     	int indexVal = -1;
     	try {

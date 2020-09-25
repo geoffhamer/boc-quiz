@@ -50,6 +50,14 @@ class BocQuizMVCTests {
 	}
 	
 	@Test
+	public void testSummaryWithData() throws Exception {
+		
+		when( parsingService.getCityRows() ).thenReturn(getClimateData()); 
+		
+		this.mockMvc.perform( get("/summary")).andDo(print()).andExpect(status().isOk() ).andExpect(content().string(containsString("Ice Station Zebra")) );
+	}
+	
+	@Test
 	public void testDetail() throws Exception {
 		
 		when( parsingService.getCityRows() ).thenReturn(getClimateData()); 

@@ -38,27 +38,19 @@
             <table class="table table-bordered table-striped" th:if="${stations}">
                 <thead>
                 <tr>
-                    <th scope="col">#</th>
                     <th scope="col">Station</th>
-                    <th scope="col">Province</th>
                     <th scope="col">Date</th>
                     <th scope="col">Mean Temp</th>
-                    <th scope="col">Max Temp</th>
-                    <th scope="col">Min Temp</th>
                 </tr>
                 </thead>
                 
                 <tbody>
                 <tr th:each="station, i : ${stations}">
-                    <th scope="row" th:text="${i.index + 1}"></th>
-                    <td th:text="${station.station}"></td>
-                    <td th:text="${station.province}"></td>
-                    <td th:text="${#dates.format(station.date, 'yyyy-MM-dd')}"></td>
-                    <td>
+                    <td align="left" th:text="${station.station}"></td>
+                    <td align="center" th:text="${#dates.format(station.date, 'yyyy-MM-dd')}"></td>
+                    <td align="center">
                     	<a th:href="@{/detail(index=${station.index})}" th:text="${station.tempMean}"/>
                     </td>
-                    <td th:text="${station.tempMax}"></td>
-                    <td th:text="${station.tempMin}"></td>
                 </tr>
                 </tbody>
                 

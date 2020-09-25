@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.opencsv.bean.CsvToBeanBuilder;
 
+import ca.boc.quiz.exception.DataParsingException;
 import ca.boc.quiz.model.ClimateData;
 
 @Service
@@ -26,7 +27,7 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 	
 	@Override
 	
-	public void initClimateData(String fileLocation) {
+	public void initClimateData(String fileLocation) throws DataParsingException {
 		
 		LOG.info("Loading climate data from: " + fileLocation);
 		
@@ -47,31 +48,30 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 				climateData.setIndex(i++);
 			}
 
+			if (data.size() <= 0) {
+				LOG.warn("No data loaded while parsing file.");
+			}
+			
 			this.climateData = data;
 
 		} catch (FileNotFoundException e) {
 			
-			LOG.error("Can't find csv file in provided location: " + fileLocation);
+			String errStr = "Can't find csv file in provided location: " + fileLocation;
 			
-			// TODO Throw proper error
-			e.printStackTrace();
+			LOG.error(errStr);
+			
+			throw new DataParsingException(errStr);
 			
 		} catch (Exception ex) {
 
-			LOG.error("Error reading/parsing csv file in provided location: " + fileLocation);
-
-			// TODO Throw proper error
+			String errStr = "An error occurred while trying to parse the following data file: " + fileLocation;
 			
+			LOG.error(errStr);
+
+			throw new DataParsingException(errStr);
 			
 		}
 		
-		
-	}
-
-	@Override
-	public String[] getColumnNames() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override
@@ -104,7 +104,6 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
     		
 		}
 		
-		// TODO Auto-generated method stub
 		return filteredClimateData;
 	}
 
