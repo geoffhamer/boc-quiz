@@ -2,6 +2,7 @@ package ca.boc.quiz.service;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 	private final static Logger LOG = LoggerFactory.getLogger(ClimateDataParsingServiceImpl.class) ;
 
 	private List<ClimateData> climateData;
+	
+	private Date earliestDate = new Date(Long.MIN_VALUE);
+	private Date latestDate = new Date(Long.MAX_VALUE);
 	
 	@Override
 	
@@ -77,9 +81,42 @@ public class ClimateDataParsingServiceImpl implements ClimateDataParsingService 
 	}
 
 	@Override
-	public List<ClimateData> getCityRowsByDate(Date startDate, Date endDate) {
+	public List<ClimateData> getCityRowsByDate(Date afterDate, Date beforeDate) {
+		
+    	// If a date isn't provided, set it to the limit
+    	if ( afterDate == null) {
+			afterDate = this.earliestDate;
+		}
+    	
+    	if ( beforeDate == null) {
+			beforeDate = this.latestDate;
+		}
+    	
+    	List<ClimateData> filteredClimateData = new ArrayList<ClimateData>();
+    	
+    	for (ClimateData climateData : this.climateData ) {
+			
+    		if ( climateData.getDate().after( afterDate ) && 
+    			 climateData.getDate().before( beforeDate ) ) {
+				
+    			filteredClimateData.add( climateData );
+			}
+    		
+		}
+		
 		// TODO Auto-generated method stub
-		return null;
+		return filteredClimateData;
 	}
 
+	@Override
+	public void addClimateData( ClimateData climateData ) {
+		
+		if ( this.climateData == null ) {
+			
+			this.climateData = new ArrayList<ClimateData>();
+			
+		}
+		
+		this.climateData.add( climateData ); 
+	}
 }

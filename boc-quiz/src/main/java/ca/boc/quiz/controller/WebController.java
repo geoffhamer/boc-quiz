@@ -1,7 +1,5 @@
 package ca.boc.quiz.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,10 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import ca.boc.quiz.BocQuizApplication;
 import ca.boc.quiz.model.ClimateData;
 import ca.boc.quiz.service.ClimateDataParsingServiceImpl;
 
@@ -27,10 +23,6 @@ public class WebController {
 	@Autowired
 	private ClimateDataParsingServiceImpl dataService;
 	
-	private Date earliestDate = new Date(Long.MIN_VALUE);
-	private Date latestDate = new Date(Long.MAX_VALUE);
-	
-
     @GetMapping("/")
     /**
      * Default page
@@ -69,26 +61,7 @@ public class WebController {
     	
     	LOG.trace("Call to filtered summary page");
     	
-    	// If a date isn't provided, set it to the limit
-    	if ( filterDates.getAfterDate() == null) {
-			filterDates.setAfterDate (this.earliestDate );
-		}
-    	
-    	if ( filterDates.getBeforeDate() == null) {
-			filterDates.setBeforeDate (this.latestDate );
-		}
-    	
-    	List<ClimateData> filteredClimateData = new ArrayList<ClimateData>();
-    	
-    	for (ClimateData climateData : dataService.getCityRows()) {
-			
-    		if ( climateData.getDate().after(filterDates.getAfterDate() ) && 
-    			 climateData.getDate().before(filterDates.getBeforeDate() ) ) {
-				
-    			filteredClimateData.add( climateData );
-			}
-    		
-		}
+    	List<ClimateData> filteredClimateData = this.dataService.getCityRowsByDate( filterDates.getAfterDate() , filterDates.getBeforeDate() );
     	
     	model.addAttribute("stations", filteredClimateData);
     	model.addAttribute("filterDates", new FilterDates());
@@ -98,7 +71,7 @@ public class WebController {
        
     
     @GetMapping("/detail")
-    public String detail(@RequestParam(name="index", required=true) String index, Model model) {
+    public String detail(@RequestParam(name="index") String index, Model model) {
     	
     	LOG.trace("Call to details page");
 

@@ -14,5 +14,7 @@ public interface ClimateDataParsingService {
 	public List<ClimateData> getCityRows();
 	
 	public List<ClimateData> getCityRowsByDate( Date startDate, Date endDate );
+	
+	public void addClimateData( ClimateData climateData );
 
 }
