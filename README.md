@@ -22,7 +22,7 @@ mvn test
 
 ## Usage
 
-Copy the jar file from the target directory to folder of your choice {/boc-quiz/target/boc-quiz.jar] 
+Copy the jar file from the target directory [/boc-quiz/target/boc-quiz.jar] to folder of your choice 
 and execute it using the following command
 
 ```bash
@@ -34,6 +34,8 @@ For Example, if the .csv file is located in the same directory as the .jar file:
 ```bash
 java -jar boc-quiz.jar eng-climate-summary.csv 
 ```
+
+The number of rows in the csv file will be displayed on the console.
 
 Once the Spring Boot applications starts, point your browser to:
 
