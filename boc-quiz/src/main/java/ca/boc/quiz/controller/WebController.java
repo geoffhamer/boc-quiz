@@ -61,6 +61,19 @@ public class WebController {
     	
     	LOG.trace("Call to filtered summary page. (after:"+filterDates.getAfterDate()+" before:"+filterDates.getBeforeDate()+")");
     	
+    	if ( filterDates.getAfterDate() != null && 
+    	     filterDates.getBeforeDate() != null &&
+    		 filterDates.getAfterDate().after( filterDates.getBeforeDate() ) ) {
+    		
+    		String errStr = "The After date cannot be later then the Before date.";
+    		LOG.error(errStr);
+    		model.addAttribute("errorMessage", errStr);
+			
+	    	model.addAttribute("filterDates", new FilterDates());
+	    	model.addAttribute("stations", dataService.getCityRows());    		
+    		return "climate-summary";
+		}
+    	
     	List<ClimateData> filteredClimateData = this.dataService.getCityRowsByDate( filterDates.getAfterDate() , filterDates.getBeforeDate() );
     	
     	LOG.trace("Filtered climate data contains "+ filteredClimateData.size() +"rows.");
